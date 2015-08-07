@@ -1,4 +1,4 @@
-package com.costrella.android.sr_game;
+package com.costrella.android.myapplication;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
