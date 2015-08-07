@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Calculator1</string>
+    <string name="number1_label">Enter first number:</string>
+    <string name="number2_label">Enter second number:</string>
+    <string name="result_label">Result:</string>
+    <string name="clear">C</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="asterisk">*</string>
+    <string name="slash">/</string>
+    <string name="equals">=</string>
+    <string name="no_number">&lt;NO NUMBER&gt;</string>
+
+</resources>
