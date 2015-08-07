@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Menu</string>
+    <string name="options_label">Press \'Menu\' button or use ActionBar to open options menu\nUse long click for context menu</string>
+    <string name="title_activity_main">MenuActivity</string>
+    <string name="b_red">bg red</string>
+    <string name="b_green">bg green</string>
+    <string name="b_blue">bg blue</string>
+    <string name="context_label">Change text color</string>
+    <string name="b_white">White text</string>
+    <string name="b_black">Black text</string>
+
+</resources>

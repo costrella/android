@@ -30,6 +30,9 @@ public class MainActivity extends Activity {
 		operator = (TextView) findViewById(R.id.operator);
 		operator.setText("Operation: " + selected);
 
+
+
+
 		Button addButton = (Button) findViewById(R.id.add_button);
 		Button subtractButton = (Button) findViewById(R.id.subtract_button);
 		Button multiplyButton = (Button) findViewById(R.id.multiply_button);

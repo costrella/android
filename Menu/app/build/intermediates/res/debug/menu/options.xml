@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="pl.example.menu.MainActivity">
+
+    <item
+        android:id="@+id/b_red"
+        android:orderInCategory="100"
+        android:title="@string/b_red"
+        app:showAsAction="never"/>
+    <item 
+        android:id="@+id/b_green"
+        android:orderInCategory="101"
+        android:title="@string/b_green"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/b_blue"
+        android:orderInCategory="102"
+        android:title="@string/b_blue"
+        app:showAsAction="never"/>
+
+</menu><!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android_sr_game/android/Menu/app/src/main/res/menu/options.xml -->
