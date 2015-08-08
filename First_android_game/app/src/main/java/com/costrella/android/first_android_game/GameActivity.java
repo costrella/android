@@ -34,7 +34,7 @@ public class GameActivity extends MyActivity {
         public void run() {
             game.update();
             gameView.postInvalidate();
-//            mHandler.postDelayed(update, (long)game.timeStep*1000);
+            mHandler.postDelayed(update, (long)game.timeStep*1000);
         }
     };
 
@@ -61,41 +61,6 @@ public class GameActivity extends MyActivity {
         mHandler.post(update);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /*
-         * when the activity is resumed, we acquire a wake-lock so that the
-         * screen stays on, since the user will likely not be fiddling with the
-         * screen or buttons.
-         */
-        //mWakeLock.acquire();
-
-        // Start the simulation
-        if (gameStart) gameView.startSimulation();
-
-//        bgmManager.setBGM(this, R.raw.playing);
-        bgmManager.play();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        /*
-         * When the activity is paused, we make sure to stop the simulation,
-         * release our sensor resources and wake locks
-         */
-
-        // Stop the simulation
-        if (gameStart) gameView.stopSimulation();
-
-        // and release our wake-lock
-        //mWakeLock.release();
-
-//
-//        bgmManager.setBGM(this, R.raw.main);
-        bgmManager.play();
-    }
 
     class GameView extends View implements SensorEventListener {
 
@@ -109,13 +74,6 @@ public class GameActivity extends MyActivity {
         }
 
         public void startSimulation() {
-            /*
-             * It is not necessary to get accelerometer events at a very high
-             * rate, by using a slower rate (SENSOR_DELAY_UI), we get an
-             * automatic low-pass filter, which "extracts" the gravity component
-             * of the acceleration. As an added benefit, we use less power and
-             * CPU resources.
-             */
             mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
         }
 
@@ -139,14 +97,6 @@ public class GameActivity extends MyActivity {
             //System.out.println("test seonsor changed");
             if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER)
                 return;
-            /*
-             * record the accelerometer data, the event's timestamp as well as
-             * the current time. The latter is needed so we can calculate the
-             * "present" time during rendering. In this application, we need to
-             * take into account how the screen is rotated with respect to the
-             * sensors (which always return data in a coordinate space aligned
-             * to with the screen in its native orientation).
-             */
 
             switch (mDisplay.getRotation()) {
                 case Surface.ROTATION_0:
@@ -172,9 +122,6 @@ public class GameActivity extends MyActivity {
 
         @Override
         protected void onDraw(Canvas canvas) {
-
-            //super.onDraw(canvas);
-            //this.canvas = canvas;
 
             game.draw(canvas, getResources());
 
