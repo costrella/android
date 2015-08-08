@@ -7,6 +7,8 @@ import android.graphics.Movie;
 import android.graphics.Paint;
 import android.util.Log;
 
+import com.costrella.android.first_android_game.R;
+
 import org.jbox2d.collision.CircleDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -56,8 +58,8 @@ public class Pillar {
 		// GIF animation part
 		try{
 			if(mMovie == null){
-//				mMovie = Movie.decodeStream(resources.openRawResource(R.drawable.rolesia));
-                mMovie = null;
+				mMovie = Movie.decodeStream(resources.openRawResource(R.drawable.rolesia));
+//                mMovie = null;
 				start = android.os.SystemClock.uptimeMillis();
 				Log.d("Game", "Movie success");
 			}

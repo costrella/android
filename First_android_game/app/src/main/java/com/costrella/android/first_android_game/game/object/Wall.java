@@ -2,9 +2,12 @@ package com.costrella.android.first_android_game.game.object;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+
+import com.costrella.android.first_android_game.R;
 
 import org.jbox2d.collision.PolygonDef;
 import org.jbox2d.dynamics.Body;
@@ -23,8 +26,8 @@ public class Wall extends GameObject{
 		Paint mPaint = new Paint();
 		
 		// Flame
-//		Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.lava);
-        Bitmap bitmap = null;
+		Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.lava);
+//        Bitmap bitmap = null;
 		RectF rect = new RectF(left, top, right, bottom);
 		
 		canvas.drawBitmap(bitmap, null, rect, mPaint);	

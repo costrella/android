@@ -2,10 +2,13 @@ package com.costrella.android.first_android_game.game.object;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+
+import com.costrella.android.first_android_game.R;
 
 import org.jbox2d.collision.CircleDef;
 import org.jbox2d.common.Vec2;
@@ -23,8 +26,8 @@ public class Monster1 extends GameObject{
 	
 	public void draw(Canvas canvas, Resources resources){		
 		Paint mPaint = new Paint();
-//		Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.kingusuraimu);
-        Bitmap bitmap = null;
+		Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.kingusuraimu);
+//        Bitmap bitmap = null;
 
 		RectF rect = new RectF(left, top, right, bottom);
 		

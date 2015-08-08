@@ -9,7 +9,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 import com.costrella.android.first_android_game.game.map.GameMap;
-import com.costrella.android.first_android_game.game.map.NMap0;
+import com.costrella.android.first_android_game.game.map.Map2;
 import com.costrella.android.first_android_game.game.object.Pillar;
 import com.costrella.android.first_android_game.game.object.Pillar2;
 
@@ -72,7 +72,7 @@ public class Game extends Activity {
 //				if (_stage == 2) map = new Map2(world);
 //				if (_stage == 3) map = new Map3(world);
 //				if (_stage == 4) map = new Map4(world);
-                map = new NMap0(world);
+                map = new Map2(world);
 				world.setListener(this);
 		    }
 		    else {
@@ -83,7 +83,7 @@ public class Game extends Activity {
 //				if (_stage == 2) map = new Map2(world);
 //				if (_stage == 3) map = new Map3(world);
 //				if (_stage == 4) map = new Map4(world);
-                map = new NMap0(world);
+                map = new Map2(world);
 				world.setListener(this);
 		    }
 
@@ -126,7 +126,7 @@ public class Game extends Activity {
 //		if (stage == 2) map = new Map2(world);
 //		if (stage == 3) map = new Map3(world);
 //		if (stage == 4) map = new Map4(world);
-        map = new NMap0(world);
+        map = new Map2(world);
 		world.setListener(collisionDetection);
 	}
 			
