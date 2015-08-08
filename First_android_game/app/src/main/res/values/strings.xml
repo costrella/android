@@ -13,4 +13,8 @@
     <string name="two">2</string>
     <string name="three">3</string>
     <string name="four">4</string>
+
+    <string name="siema">tutaj bedzie game activity</string>
+
+
 </resources>
