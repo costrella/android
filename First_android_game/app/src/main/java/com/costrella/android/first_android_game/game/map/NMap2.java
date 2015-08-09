@@ -17,14 +17,17 @@ public class NMap2 extends GameMap {
 	private int numOfObject;
 
 	public NMap2(World world){
-		numOfObject = 4;
+		numOfObject = 8;
 		gameObjectArray = new GameObject[numOfObject];
 		
-		gameObjectArray[0] = new Wall(10, 350, 700, 400, world);//top
-        gameObjectArray[1] = new Wall(10, 580, 700, 630, world);//bottom
-
-        gameObjectArray[2] = new Wall(10, 400, 30, 580, world);//left
-        gameObjectArray[3] = new Wall(700, 400, 730, 580, world);//right
+		gameObjectArray[0] = new Wall(0, 0, 200, 20, world);
+        gameObjectArray[1] = new Wall(0, 0, 20, 400, world);
+        gameObjectArray[2] = new Wall(200, 0, 220, 300, world);
+        gameObjectArray[3] = new Wall(200, 300, 600, 320, world);
+        gameObjectArray[4] = new Wall(0, 400, 500, 420, world);
+        gameObjectArray[5] = new Wall(500, 400, 520, 600, world);
+        gameObjectArray[6] = new Wall(600, 300, 620, 600, world);
+        gameObjectArray[7] = new Wall(500, 600, 600, 620, world);
 	}
 	
 	@Override
@@ -32,7 +35,7 @@ public class NMap2 extends GameMap {
 		Paint paint = new Paint();
 		
 		// BackGround
-		canvas.drawColor(Color.YELLOW);
+		canvas.drawColor(Color.RED);
 		
 		try{
 			for(int i=0; i<gameObjectArray.length; i++){

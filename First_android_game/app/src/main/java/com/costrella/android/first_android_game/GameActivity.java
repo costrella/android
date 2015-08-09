@@ -71,7 +71,7 @@ public class GameActivity extends MyActivity {
         }
 
         public void startSimulation() {
-            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
         }
 
         public void stopSimulation() {

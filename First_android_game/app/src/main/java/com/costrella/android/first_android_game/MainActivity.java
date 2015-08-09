@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 
 public class MainActivity extends Activity {
@@ -19,7 +18,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         playBtn = (Button) findViewById(R.id.btnPlay);
-        levelBtn = (Button) findViewById(R.id.btnLevel);
+//        levelBtn = (Button) findViewById(R.id.btnLevel);
 
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,13 +28,13 @@ public class MainActivity extends Activity {
             }
         });
 
-        levelBtn.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent i = new Intent(getApplicationContext(), LevelSelector.class);
-                                            startActivity(i);
-                                        }
-                                    }
-        );
+//        levelBtn.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+//                                            Intent i = new Intent(getApplicationContext(), LevelSelector.class);
+//                                            startActivity(i);
+//                                        }
+//                                    }
+//        );
     }
 }

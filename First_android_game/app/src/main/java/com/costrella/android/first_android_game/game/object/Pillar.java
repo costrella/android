@@ -78,11 +78,11 @@ public class Pillar {
 	}
 	
 	public void update(float xNew, float yNew){
-		if (sensorInitial) {
-			xSensorInitial = xNew;
-			ySensorInitial = yNew;
-			sensorInitial = false;
-		}
+//		if (sensorInitial) {
+//			xSensorInitial = xNew;
+//			ySensorInitial = yNew;
+//			sensorInitial = false;
+//		}
 		
 		float xV = (xNew - xSensorInitial) * 40;
 		float yV = (yNew - ySensorInitial) * 40;

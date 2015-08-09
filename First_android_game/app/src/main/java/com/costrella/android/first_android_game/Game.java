@@ -9,11 +9,10 @@ import android.graphics.Color;
 import android.util.Log;
 
 import com.costrella.android.first_android_game.game.map.GameMap;
-import com.costrella.android.first_android_game.game.map.NMap0;
 import com.costrella.android.first_android_game.game.map.NMap1;
 import com.costrella.android.first_android_game.game.map.NMap2;
 import com.costrella.android.first_android_game.game.map.NMap3;
-import com.costrella.android.first_android_game.game.object.Monster1;
+import com.costrella.android.first_android_game.game.map.NMap4;
 import com.costrella.android.first_android_game.game.object.Pillar;
 import com.costrella.android.first_android_game.game.object.Pillar2;
 
@@ -36,7 +35,6 @@ public class Game {
     int iterations;
     private Pillar player;
     private Pillar2 finish, pillar3, pillar4;
-    private Monster1 monster;
     private GameMap map;
     private int _stage;
     private Context _context;
@@ -49,7 +47,7 @@ public class Game {
         if (_stage == 4) start4Level();
         world.setListener(collisionDetection);
     }
-
+    public ContactListener doNothing = null;
     public ContactListener collisionDetection = new ContactListener() {
         @Override
         public void add(ContactPoint arg0) {
@@ -70,6 +68,7 @@ public class Game {
                                     }).show();
                 goToLevel(_stage);
             } else if ((body1.getShapeList().getType() == ShapeType.POLYGON_SHAPE)) {
+                world.setListener(doNothing);
                 new AlertDialog.Builder(_context)
                         .setTitle("Android game").setMessage("AJJ!!!")
                         .setPositiveButton("OK",
@@ -118,50 +117,50 @@ public class Game {
 
     private void start1Level() {
 
-        player = new Pillar(70, 440, 15, world);
+        player = new Pillar(100, 100, 15, world);
 
-        finish = new Pillar2(500, 500, 25, Color.BLACK, world);
+        finish = new Pillar2(250, 70, 25, Color.BLACK, world);
 
-        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
-        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
-
-        map = new NMap0(world);
-    }
-
-    private void start2Level() {
-
-        player = new Pillar(70, 440, 15, world);
-
-        finish = new Pillar2(300, 500, 25, Color.BLACK, world);
-
-        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
-        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
+//        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
+//        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
 
         map = new NMap1(world);
     }
 
-    private void start3Level() {
+    private void start2Level() {
 
-        player = new Pillar(70, 440, 15, world);
+        player = new Pillar(70, 70, 15, world);
 
-        finish = new Pillar2(300, 500, 25, Color.BLACK, world);
+        finish = new Pillar2(550, 550, 25, Color.BLACK, world);
 
-        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
-        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
+//        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
+//        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
 
         map = new NMap2(world);
     }
 
-    private void start4Level() {
+    private void start3Level() {
 
-        player = new Pillar(70, 440, 15, world);
+        player = new Pillar(70, 250, 15, world);
 
-        finish = new Pillar2(300, 500, 25, Color.BLACK, world);
+        finish = new Pillar2(250, 250, 25, Color.BLACK, world);
 
-        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
-        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
+//        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
+//        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
 
         map = new NMap3(world);
+    }
+
+    private void start4Level() {
+
+        player = new Pillar(70, 250, 15, world);
+
+        finish = new Pillar2(250, 50, 25, Color.BLACK, world);
+
+//        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
+//        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
+
+        map = new NMap4(world);
     }
 
     public void positionUpdate(float sensorX, float sensorY) {
@@ -177,7 +176,7 @@ public class Game {
         map.draw(canvas, resources);
         player.draw(canvas, resources);
         finish.draw(canvas);
-        pillar3.draw(canvas);
-        pillar4.draw(canvas);
+//        pillar3.draw(canvas);
+//        pillar4.draw(canvas);
     }
 }
