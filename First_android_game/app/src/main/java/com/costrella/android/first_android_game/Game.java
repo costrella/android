@@ -1,6 +1,8 @@
 package com.costrella.android.first_android_game;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,12 +10,17 @@ import android.util.Log;
 
 import com.costrella.android.first_android_game.game.map.GameMap;
 import com.costrella.android.first_android_game.game.map.NMap0;
+import com.costrella.android.first_android_game.game.map.NMap1;
+import com.costrella.android.first_android_game.game.map.NMap2;
+import com.costrella.android.first_android_game.game.map.NMap3;
 import com.costrella.android.first_android_game.game.object.Monster1;
 import com.costrella.android.first_android_game.game.object.Pillar;
 import com.costrella.android.first_android_game.game.object.Pillar2;
 
 import org.jbox2d.collision.AABB;
+import org.jbox2d.collision.ShapeType;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.ContactListener;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.ContactPoint;
@@ -27,24 +34,51 @@ public class Game {
     private boolean doSleep;
     float timeStep;
     int iterations;
-    //private Body body;         //-- var of obj
-    //private final static int RATE = 10;
-    //private float x, y;
-    private Pillar pillar;
-    private Pillar2 pillar2, pillar3, pillar4;
+    private Pillar player;
+    private Pillar2 finish, pillar3, pillar4;
     private Monster1 monster;
     private GameMap map;
     private int _stage;
     private Context _context;
 
+    private void goToLevel(int _stage) {
+        world = new World(worldAABB, gravity, doSleep);
+        if (_stage == 1) start1Level();
+        if (_stage == 2) start2Level();
+        if (_stage == 3) start3Level();
+        if (_stage == 4) start4Level();
+        world.setListener(collisionDetection);
+    }
+
     public ContactListener collisionDetection = new ContactListener() {
         @Override
         public void add(ContactPoint arg0) {
             // TODO Auto-generated method stub
-            Log.i("DOTKNIECIE !Game", "Contact detected");
+            Body body1 = arg0.shape1.getBody();
+            Body body2 = arg0.shape2.getBody();
 
-
-
+            //1 - circle
+            if ((body1.getShapeList().getType() == ShapeType.CIRCLE_SHAPE)) {
+                _stage = _stage + 1;
+                if (_stage == 5)
+                    new AlertDialog.Builder(_context)
+                            .setTitle("Android game").setMessage("You Win!!")
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    }).show();
+                goToLevel(_stage);
+            } else if ((body1.getShapeList().getType() == ShapeType.POLYGON_SHAPE)) {
+                new AlertDialog.Builder(_context)
+                        .setTitle("Android game").setMessage("AJJ!!!")
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        goToLevel(_stage);
+                                    }
+                                }).show();
+            }
 
         }
 
@@ -76,40 +110,74 @@ public class Game {
         timeStep = 1.0f / 60.0f;
         iterations = 10;
         world = new World(worldAABB, gravity, doSleep);
-        pillar = new Pillar(30, 420, 15, world);
 
-        pillar2 = new Pillar2(100, 500, 25, Color.RED, world);
-        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
-        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
-        monster = new Monster1(600, 400, 40, world);
+        goToLevel(_stage);
 
-//		if (stage == 1) map = new Map1(world);
-//		if (stage == 2) map = new Map2(world);
-//		if (stage == 3) map = new Map3(world);
-//		if (stage == 4) map = new Map4(world);
-        map = new NMap0(world);
         world.setListener(collisionDetection);
     }
 
+    private void start1Level() {
+
+        player = new Pillar(70, 440, 15, world);
+
+        finish = new Pillar2(500, 500, 25, Color.BLACK, world);
+
+        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
+        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
+
+        map = new NMap0(world);
+    }
+
+    private void start2Level() {
+
+        player = new Pillar(70, 440, 15, world);
+
+        finish = new Pillar2(300, 500, 25, Color.BLACK, world);
+
+        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
+        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
+
+        map = new NMap1(world);
+    }
+
+    private void start3Level() {
+
+        player = new Pillar(70, 440, 15, world);
+
+        finish = new Pillar2(300, 500, 25, Color.BLACK, world);
+
+        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
+        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
+
+        map = new NMap2(world);
+    }
+
+    private void start4Level() {
+
+        player = new Pillar(70, 440, 15, world);
+
+        finish = new Pillar2(300, 500, 25, Color.BLACK, world);
+
+        pillar3 = new Pillar2(250, 410, 10, Color.GRAY, world);
+        pillar4 = new Pillar2(4500, 200, 50, Color.MAGENTA, world);
+
+        map = new NMap3(world);
+    }
+
     public void positionUpdate(float sensorX, float sensorY) {
-        pillar.update(sensorX, sensorY);
+        player.update(sensorX, sensorY);
     }
 
     public void update() {
         world.step(timeStep, iterations);
-
-        //pillar.update();
-        //pillar2.x = pillar2.body.getPosition().x;
-        //pillar2.y = pillar2.body.getPosition().y;
     }
 
     public void draw(Canvas canvas, Resources resources) {
-        canvas.translate(200 - pillar.x, 200 - pillar.y);
+        canvas.translate(200 - player.x, 200 - player.y);
         map.draw(canvas, resources);
-        pillar.draw(canvas, resources);
-        pillar2.draw(canvas);
+        player.draw(canvas, resources);
+        finish.draw(canvas);
         pillar3.draw(canvas);
         pillar4.draw(canvas);
-        monster.draw(canvas, resources);
     }
 }

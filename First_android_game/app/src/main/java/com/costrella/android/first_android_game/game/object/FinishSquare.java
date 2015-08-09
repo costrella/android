@@ -9,7 +9,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
-public class Pillar2{
+public class FinishSquare {
 	private float x;
 	private float y;
 	private float _radius;
@@ -18,14 +18,14 @@ public class Pillar2{
 	private Vec2 point;
 	private Vec2 pointOld = new Vec2(0, 0);
 	private int color;
-	
-	public Pillar2(float xInitial, float yInitial, float radius, int color, World _world){
+
+	public FinishSquare(float xInitial, float yInitial, float radius, int color, World _world){
         this.color = color;
 		x = xInitial;
 		y = yInitial;
 		_radius = radius;
-		CircleDef shape = new CircleDef();  
-		shape.density = 0.1f;  
+		CircleDef shape = new CircleDef();
+		shape.density = 0.1f;
 		shape.friction = 0.0f;  	
 		shape.radius = _radius;
 		  
