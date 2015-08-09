@@ -26,7 +26,6 @@ public class GameActivity extends MyActivity {
     private Handler mHandler;
     private WindowManager mWindowManager;
     private Display mDisplay;
-    private boolean gameStart = false;
 
     AlertDialog alertDialog = null;
 
@@ -34,7 +33,7 @@ public class GameActivity extends MyActivity {
         public void run() {
             game.update();
             gameView.postInvalidate();
-            mHandler.postDelayed(update, (long)game.timeStep*1000);
+            mHandler.postDelayed(update, (long) game.timeStep * 1000);
         }
     };
 
@@ -48,9 +47,8 @@ public class GameActivity extends MyActivity {
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mDisplay = mWindowManager.getDefaultDisplay();
 
-        Integer level = (Integer)getIntent().getSerializableExtra("level");
+        Integer level = (Integer) getIntent().getSerializableExtra("level");
         initialize(level);
-        gameStart = true;
     }
 
     protected void initialize(int stage) {
@@ -68,7 +66,6 @@ public class GameActivity extends MyActivity {
 
         public GameView(Context context) {
             super(context);
-            // TODO Auto-generated constructor stub
             mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             this.startSimulation();
         }
@@ -127,7 +124,6 @@ public class GameActivity extends MyActivity {
 
         }
     }
-
 
 
 }

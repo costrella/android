@@ -58,7 +58,7 @@ public class Pillar {
 		// GIF animation part
 		try{
 			if(mMovie == null){
-				mMovie = Movie.decodeStream(resources.openRawResource(R.drawable.rolesia));
+				mMovie = Movie.decodeStream(resources.openRawResource(R.drawable.kingusuraimu));
 //                mMovie = null;
 				start = android.os.SystemClock.uptimeMillis();
 				Log.d("Game", "Movie success");

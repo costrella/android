@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Movie;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.costrella.android.first_android_game.R;
 
@@ -16,69 +18,65 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
-public class Monster1 extends GameObject{
-	public float left;
-	public float top;
-	public float right;
-	public float bottom;
-	private Body body;
-	private boolean rightWard;
+public class Monster1{
+    public float x;
+    public float y;
+    private float radius;
+    private boolean sensorInitial = true;
+    private float xSensorInitial = 0;
+    private float ySensorInitial = 0;
+    private Body body;
+    private Vec2 force = new Vec2(0, 0);
+    private Vec2 point;
+    private Vec2 pointOld = new Vec2(0, 0);
+    private Movie mMovie;
+    private long start;
 	
-	public void draw(Canvas canvas, Resources resources){		
-		Paint mPaint = new Paint();
-		Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.kingusuraimu);
-//        Bitmap bitmap = null;
+	public void draw(Canvas canvas, Resources resources){
+        Paint mPaint = new Paint();
+        int duration;
+        mPaint.setAntiAlias(true);
+        mPaint.setColor(Color.GREEN);
 
-		RectF rect = new RectF(left, top, right, bottom);
-		
-		mPaint.setColor(Color.GREEN);
-		//canvas.drawCircle(body.getPosition().x, body.getPosition().y, 15*0.9f, mPaint);
-		
-		canvas.drawBitmap(bitmap, null, rect, mPaint);
+        //canvas.drawCircle(x, y, radius, mPaint);
+
+        // GIF animation part
+        try{
+            if(mMovie == null){
+                mMovie = Movie.decodeStream(resources.openRawResource(R.drawable.kingusuraimu));
+//                mMovie = null;
+                start = android.os.SystemClock.uptimeMillis();
+                Log.d("Game", "Movie success");
+            }
+
+            duration = mMovie.duration();
+
+            if(duration == 0){
+                duration = 1000;
+            }
+
+            mMovie.setTime((int)(android.os.SystemClock.uptimeMillis() - start)%duration);
+            mMovie.draw(canvas, x - mMovie.width()/2, y - mMovie.height()/2);
+        }catch (Exception e) {
+            Log.d("Game","Movie exception: "+e.toString());
+        }
 
 	}
 	
-	public Monster1(float initLeft, float initTop, float initRight, float initBottom, World physicsWorld){
-		left = initLeft;
-		top = initTop;
-		right = initRight;
-		bottom = initBottom;
-		rightWard = Math.random() > 0.5? true:false;
-		
-		CircleDef shape = new CircleDef();		
-		shape.density = 0.3f;  
-		shape.friction = 0.0f;  	
-		shape.radius = (float)(initRight - initLeft)/2 * 0.9f;
-		  
-		BodyDef bodyDef = new BodyDef();  
-		bodyDef.position.set((float)(initRight + initLeft)/2.0f, (float)(initBottom + initTop)/2.0f);
-		
-		body = physicsWorld.createDynamicBody(bodyDef);
-		body.createShape(shape);  
-		body.setMassFromShapes();	 
+	public Monster1(float _x, float _y, float _radius, World _world){
+        x = _x;
+        y = _y;
+        radius = _radius;
+        CircleDef shape = new CircleDef();
+        shape.density = 0.1f;
+        shape.friction = 0.0f;
+        shape.radius = radius;
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(x, y);
+        body = _world.createDynamicBody(bodyDef);
+        body.createShape(shape);
+        body.setMassFromShapes();
 	}
 	
-	public void horizontalTranslation(int initX, int endX, float speedIndex){
-		if(rightWard){
-			//left+=speedIndex;
-			//right+=speedIndex;
-			body.setLinearVelocity(new Vec2(speedIndex, 0));
-			if(right>endX){
-				rightWard = false;
-			}
-		}
-		else{
-			//left-=speedIndex;
-			//right-=speedIndex;
-			body.setLinearVelocity(new Vec2(-speedIndex, 0));
-			if(left<initX){
-				rightWard = true;
-			}
-			//Log.d("Game", "Left="+left+" Body="+body.getPosition().x+" result="+speedIndex*velocityRate);
-			//Log.d("Game", "Top="+top+" Body="+body.getPosition().y);
-		}
-		
-		left = body.getPosition().x-15;
-		right = body.getPosition().x+15;
-	}
+
 }

@@ -1,7 +1,6 @@
 package com.costrella.android.first_android_game.game.object;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.jbox2d.collision.CircleDef;
@@ -18,10 +17,10 @@ public class Pillar2{
 	private Vec2 force = new Vec2(0, 0);
 	private Vec2 point;
 	private Vec2 pointOld = new Vec2(0, 0);
-	//private float xOld = 0;
-	//private float yOld = 0;
+	private int color;
 	
-	public Pillar2(float xInitial, float yInitial, float radius, World _world){
+	public Pillar2(float xInitial, float yInitial, float radius, int color, World _world){
+        this.color = color;
 		x = xInitial;
 		y = yInitial;
 		_radius = radius;
@@ -40,7 +39,7 @@ public class Pillar2{
 	public void draw(Canvas canvas){
 		Paint mPaint = new Paint();  
 		mPaint.setAntiAlias(true);  
-		mPaint.setColor(Color.GREEN);  
+		mPaint.setColor(color);
 		canvas.drawCircle(x, y, _radius, mPaint);  			
 	}	
 }
