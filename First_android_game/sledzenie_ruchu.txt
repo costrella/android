@@ -1,0 +1,68 @@
+Celem projektu jest wykorzystanie możliwości akcelerometru w grze na urządzenie mobilne.
+System mobilny: Android
+Wykorzystane biblioteki : domyślne Android + jbox2d
+Środowisko: Android Studio
+Repo: https://github.com/costrella/android/tree/master/First_android_game
+jbox2d pozwala tworzyć m.in. świat gry, przeznaczona jest do tworzenia obiektów 2D i wykrywania kolizji.
+Wykorzystałem z tej biblioteki m.in: możliwość tworzenia obiektów, świata (mapy) oraz wykrywanie kolizji.
+W grze sterujemy obiektem, którym poruszamy za pomocą ruchów aparatu. Aktywność gry jest ustawiona na landscape.
+Obiekt, którym sterujemy musi pokonać odpowiednią drogę od punktu A do punktu B.
+Dodatkowo gra jest podzielona na kilka poziomów, na każdym z nich mamy różną trasę, którą musimy przejść naszym obiektem.
+Trasa (mapa) jest ogrodzona liniowymi obiektami, jeśli nasz obiekt uderzy w nią - zostaje o tym poinformowany odpowiednim dialogiem, a następnie musi zaczynać grę od początku danego poziomu. Po przejściu wszystkich poziomów użytkownik zostaje poinformowany o przejściu całej gry.
+Dodatkowo:
+Gradle - do budowania aplikacji
+Testowany bezpośrednio na aparacie, z powodu wydajności hosta
+android:minSdkVersion=9
+Trzy główne aktywności Android: 
+MainActivity
+LevelSelector
+GameActivity /landscape/
+
+
+Sensor:
+public class GameActivity extends MyActivity {
+	private SensorManager mSensorManager;
+	(...)
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+	(...)
+	initialize(level);
+}
+
+class GameView extends View implements SensorEventListener {
+
+public void startSimulation() {
+	mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+}
+
+@Override
+public void onSensorChanged(SensorEvent event) {
+			float mSensorX = 0;
+            float mSensorY = 0;
+			if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER)
+                return;
+
+            switch (mDisplay.getRotation()) {
+                case Surface.ROTATION_0:
+                    mSensorX = -event.values[0];
+                    mSensorY = event.values[1];
+                    break;
+                case Surface.ROTATION_90:
+                    mSensorX = event.values[1];
+                    mSensorY = event.values[0];
+                    break;
+                case Surface.ROTATION_180:
+                    mSensorX = event.values[0];
+                    mSensorY = -event.values[1];
+                    break;
+                case Surface.ROTATION_270:
+                    mSensorX = -event.values[1];
+                    mSensorY = -event.values[0];
+                    break;
+            }
+            game.positionUpdate(mSensorX, mSensorY);
+		}
+}
+}
