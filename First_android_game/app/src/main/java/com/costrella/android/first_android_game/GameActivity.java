@@ -1,5 +1,6 @@
 package com.costrella.android.first_android_game;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -18,7 +19,7 @@ import android.view.WindowManager;
  * Created by mike on 2015-08-08.
  */
 
-public class GameActivity extends MyActivity {
+public class GameActivity extends Activity {
 
     private Game game;
     private GameView gameView;
