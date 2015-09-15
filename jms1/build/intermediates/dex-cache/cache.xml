@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\costrella\costrella_projects\costrella_android_projects\android\android\jms1\app\libs\com.kaazing.gateway.jms.client.android.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5e60d0c4c54c186744be55b53f5bd730a2d0aea5">
+        <dex dex="D:\costrella\costrella_projects\costrella_android_projects\android\android\jms1\app\build\intermediates\pre-dexed\debug\com.kaazing.gateway.jms.client.android-ef9d624db7529c4c82fac48485bb300fd257b4f5.jar" />
+    </item>
+    <item
+        jar="D:\costrella\costrella_projects\costrella_android_projects\android\android\jms1\app\libs\support-v4.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="787594919738b7cc806f2870ac9a59d98754a458">
+        <dex dex="D:\costrella\costrella_projects\costrella_android_projects\android\android\jms1\app\build\intermediates\pre-dexed\debug\support-v4-9cfaffe6f529790c21910bb81c13547b7144e21a.jar" />
+    </item>
+    <item
+        jar="D:\costrella\costrella_projects\costrella_android_projects\android\android\jms1\app\libs\geronimo-jms_1.1_spec.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="bbd68f90d445de37050b1e9fb9d7114e83757e73">
+        <dex dex="D:\costrella\costrella_projects\costrella_android_projects\android\android\jms1\app\build\intermediates\pre-dexed\debug\geronimo-jms_1.1_spec-e699c30b42083e1ccb1535867e48974841b803fa.jar" />
+    </item>
+    <item
+        jar="D:\costrella\costrella_projects\costrella_android_projects\android\android\jms1\app\libs\com.kaazing.gateway.client.android.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="aea5bb6038f695df32508b558a1b22fbaf14cf2a">
+        <dex dex="D:\costrella\costrella_projects\costrella_android_projects\android\android\jms1\app\build\intermediates\pre-dexed\debug\com.kaazing.gateway.client.android-0b6841ba68e4e214992e9df7bd5ed796f17b72fb.jar" />
+    </item>
+
+</items>

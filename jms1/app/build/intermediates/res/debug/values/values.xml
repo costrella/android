@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="edit_text_size">12dp</dimen>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">JMS Messaging Demo</string>
+    <string name="app_name_short">JMS Demo</string>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/player_positions.xml -->
+    <eat-comment/>
+    <string name="bottom">Bottom</string>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="cancel_label">Cancel</string>
+    <string name="clear_label">Clear</string>
+    <string name="connectBtn_label">Connect</string>
+    <string name="destination_default">/topic/destination</string>
+    <string name="destination_label">Destination</string>
+    <string name="disconnectBtn_label">Disconnect</string>
+    <string name="hello_world">Hello world!</string>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/player_positions.xml -->
+    <eat-comment/>
+    <string name="left">Left</string>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="location_default">ws://192.168.1.6:8001/jms</string>
+    <string name="location_label">Location</string>
+    <string name="message_default">Hello, message</string>
+    <string name="message_label">Message</string>
+    <string name="ok_label">OK</string>
+    <string name="password_hint">Password</string>
+    <string name="player1">Player1</string>
+    <string name="player2">Player2</string>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/player_positions.xml -->
+    <eat-comment/>
+    <string name="right">Right</string>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="sendBinary_label">Send Binary</string>
+    <string name="send_label">Send</string>
+    <string name="startPlay">Player Control</string>
+    <string name="subscribe_label">Subscribe</string>
+    <string name="title_activity_player">PlayerActivity</string>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/player_positions.xml -->
+    <eat-comment/>
+    <string name="top">Top</string>
+    <!-- From: file:/D:/costrella/costrella_projects/costrella_android_projects/android/android/jms1/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="unsubscribe_label">Unsubscribe</string>
+    <string name="username_hint">Username</string>
+</resources>
