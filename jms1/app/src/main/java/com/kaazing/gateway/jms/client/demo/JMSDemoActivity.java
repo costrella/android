@@ -4,6 +4,27 @@
 
 package com.kaazing.gateway.jms.client.demo;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.kaazing.gateway.jms.client.ConnectionDisconnectedException;
+import com.kaazing.gateway.jms.client.JmsConnectionFactory;
+import com.kaazing.gateway.jms.client.demo.LoginDialogFragment.LoginDialogListener;
+import com.kaazing.gateway.jms.client.util.Tracer;
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.ChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+import com.kaazing.net.ws.WebSocketFactory;
+
 import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.util.ArrayDeque;
@@ -26,56 +47,37 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import com.kaazing.gateway.jms.client.demo.LoginDialogFragment.LoginDialogListener;
-import com.kaazing.gateway.jms.client.util.Tracer;
-import com.kaazing.gateway.jms.client.ConnectionDisconnectedException;
-import com.kaazing.gateway.jms.client.JmsConnectionFactory;
-import com.kaazing.net.auth.BasicChallengeHandler;
-import com.kaazing.net.auth.ChallengeHandler;
-import com.kaazing.net.auth.LoginHandler;
-import com.kaazing.net.ws.WebSocketFactory;
-
 public class JMSDemoActivity extends FragmentActivity {
 
     private static String TAG = "com.kaazing.gateway.jms.client.android.demo";
-    
+
     private Button connectBtn;
     private Button disconnectBtn;
     private Button subscribeBtn;
     private Button unsubscribeBtn;
     private Button sendBtn;
     private Button clearBtn;
+    private Button controlBtn;
     private CheckBox sendBinaryCheckBox;
-    
+
     private EditText locationText;
-    private EditText destinationText;
+    public static EditText destinationText;
     private EditText messageText;
-    
+
     private TextView logTextView;
-    
+
     private JmsConnectionFactory connectionFactory;
     private Connection connection;
-    private Session session;
-    
-    private DispatchQueue dispatchQueue;
-    
+    public static Session session;
+
+    public static DispatchQueue dispatchQueue;
+
     private HashMap<String, ArrayDeque<MessageConsumer>> consumers = new HashMap<String, ArrayDeque<MessageConsumer>>();
 
     /**
      * Called when the activity is first created.
-     * @param savedInstanceState If the activity is being re-initialized after 
-     * previously being shut down then this Bundle contains the data it most 
+     * @param savedInstanceState If the activity is being re-initialized after
+     * previously being shut down then this Bundle contains the data it most
      * recently supplied in onSaveInstanceState(Bundle). <b>Note: Otherwise it is null.</b>
      */
     @Override
@@ -83,7 +85,7 @@ public class JMSDemoActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
         setContentView(R.layout.main);
-        
+        controlBtn      =  (Button)findViewById(R.id.controlBtn);
         connectBtn      = (Button)findViewById(R.id.connectBtn);
         disconnectBtn   = (Button)findViewById(R.id.disconnectBtn);
         subscribeBtn    = (Button)findViewById(R.id.subscribeBtn);
@@ -91,19 +93,19 @@ public class JMSDemoActivity extends FragmentActivity {
         sendBtn         = (Button)findViewById(R.id.sendBtn);
         clearBtn        = (Button)findViewById(R.id.clearBtn);
         sendBinaryCheckBox = (CheckBox)findViewById(R.id.sendBinaryCheckBox);
-        
+
         locationText    = (EditText)findViewById(R.id.locationText);
         destinationText = (EditText)findViewById(R.id.destinationText);
         messageText = (EditText)findViewById(R.id.messageText);
-        
+
         logTextView     = (TextView)findViewById(R.id.logView);
         logTextView.setMovementMethod(new ScrollingMovementMethod());
-        
+
         Tracer.DEBUG = true;
         Logger logger = Logger.getLogger("com.kaazing.gateway.jms.client");
         logger.setLevel(Level.FINE);
-        
-        
+
+
         if (connectionFactory == null) {
 			try {
 				connectionFactory = JmsConnectionFactory.createConnectionFactory();
@@ -114,23 +116,31 @@ public class JMSDemoActivity extends FragmentActivity {
 				logMessage("EXCEPTION: " + e.getMessage());
 			}
         }
-        
-        connectBtn.setOnClickListener(new OnClickListener() {       	
+
+        controlBtn.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        connectBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				connectBtn.setEnabled(false);
 				dispatchQueue = new DispatchQueue("DispatchQueue");
 		        dispatchQueue.start();
 		        dispatchQueue.waitUntilReady();
 				connect();
-			}			
+			}
 		});
-        
-        disconnectBtn.setOnClickListener(new OnClickListener() {        	
+
+        disconnectBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				disconnect();
-			}		
+			}
 		});
-        
+
         subscribeBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				final String destinationName = destinationText.getText().toString();
@@ -158,8 +168,8 @@ public class JMSDemoActivity extends FragmentActivity {
 				});
 			}
 		});
-        
-        unsubscribeBtn.setOnClickListener(new OnClickListener() {		
+
+        unsubscribeBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				String destinationName = destinationText.getText().toString();
 				logMessage("UNSUBSCRIBE - " + destinationName);
@@ -171,7 +181,7 @@ public class JMSDemoActivity extends FragmentActivity {
 				if (consumer == null) {
 					return;
 				}
-				dispatchQueue.dispatchAsync(new Runnable() {	
+				dispatchQueue.dispatchAsync(new Runnable() {
 					public void run() {
 						try {
 							consumer.close();
@@ -181,15 +191,15 @@ public class JMSDemoActivity extends FragmentActivity {
 						}
 					}
 				});
-			}			
+			}
 		});
-        
+
         sendBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				final boolean sendBinary = sendBinaryCheckBox.isChecked();
 				final String text = messageText.getText().toString();
 				logMessage("SEND: " + text);
-				dispatchQueue.dispatchAsync(new Runnable() {			
+				dispatchQueue.dispatchAsync(new Runnable() {
 					public void run() {
 						try {
 							String destinationName = destinationText.getText().toString();
@@ -203,7 +213,7 @@ public class JMSDemoActivity extends FragmentActivity {
 							else {
 								message = session.createTextMessage(text);
 							}
-							
+
 							producer.send(message);
 							producer.close();
 						} catch (JMSException e) {
@@ -212,20 +222,20 @@ public class JMSDemoActivity extends FragmentActivity {
 						}
 					}
 				});
-			}		
+			}
 		});
-        
-        clearBtn.setOnClickListener(new OnClickListener() {		
+
+        clearBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				logTextView.setText("");
-				
+
 			}
 		});
     }
-    
+
     public void onPause() {
     	if (connection != null) {
-    		dispatchQueue.dispatchAsync(new Runnable() {	
+    		dispatchQueue.dispatchAsync(new Runnable() {
 				@Override
 				public void run() {
 					try {
@@ -238,10 +248,10 @@ public class JMSDemoActivity extends FragmentActivity {
     	}
     	super.onPause();
     }
-    
+
     public void onResume() {
     	if (connection != null) {
-    		dispatchQueue.dispatchAsync(new Runnable() {	
+    		dispatchQueue.dispatchAsync(new Runnable() {
 				@Override
 				public void run() {
 					try {
@@ -254,7 +264,7 @@ public class JMSDemoActivity extends FragmentActivity {
     	}
     	super.onResume();
     }
-    
+
    public void onDestroy() {
 	   if (connection != null) {
 		   disconnect();
@@ -263,11 +273,11 @@ public class JMSDemoActivity extends FragmentActivity {
    }
 
     private void connect() {
-    	
+
     	logMessage("CONNECTING");
-    	
-    	// Since createConnection() is a blocking method which will not return until 
-    	// the connection is established or connection fails, it is a good practice to 
+
+    	// Since createConnection() is a blocking method which will not return until
+    	// the connection is established or connection fails, it is a good practice to
     	// establish connection on a separate thread so that UI is not blocked.
     	dispatchQueue.dispatchAsync(new Runnable() {
 			public void run() {
@@ -278,7 +288,7 @@ public class JMSDemoActivity extends FragmentActivity {
 					connection.start();
 					session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 					logMessage("CONNECTED");
-					connection.setExceptionListener(new ConnectionExceptionListener());	
+					connection.setExceptionListener(new ConnectionExceptionListener());
 					updateButtonsForConnected();
 				} catch (Exception e) {
 					updateButtonsForDisconnected();
@@ -286,12 +296,12 @@ public class JMSDemoActivity extends FragmentActivity {
 					logMessage("EXCEPTION: " + e.getMessage());
 				}
 			}
-		});	
+		});
     }
-    
+
     private void disconnect() {
     	logMessage("DISCONNECTING");
-    	
+
     	dispatchQueue.removePendingJobs();
     	dispatchQueue.quit();
     	new Thread(new Runnable() {
@@ -310,8 +320,8 @@ public class JMSDemoActivity extends FragmentActivity {
 			}
 		}).start();
     }
-    
-    private Destination getDestination(String destinationName) throws JMSException {
+
+    public static Destination getDestination(String destinationName) throws JMSException {
 		Destination destination;
 		if (destinationName.startsWith("/topic/")) {
 			destination = session.createTopic(destinationName);
@@ -320,16 +330,16 @@ public class JMSDemoActivity extends FragmentActivity {
 			destination = session.createQueue(destinationName);
 		}
 		else {
-			logMessage("Invalid destination name: " + destinationName);
+			//logMessage("Invalid destination name: " + destinationName);
 			return null;
 		}
 		return destination;
-			
+
     }
-    
-    
+
+
     private void logMessage(final String message) {
-    	runOnUiThread(new Runnable() {		
+    	runOnUiThread(new Runnable() {
 			public void run() {
 				// Clear log after 100 messages
 				if (logTextView.getLineCount() > 100) {
@@ -338,11 +348,11 @@ public class JMSDemoActivity extends FragmentActivity {
 				else {
 					logTextView.setText(message + "\n" + logTextView.getText());
 				}
-				
+
 			}
 		});
     }
-    
+
     private void updateButtonsForConnected() {
     	runOnUiThread(new Runnable() {
 			public void run() {
@@ -351,10 +361,11 @@ public class JMSDemoActivity extends FragmentActivity {
 		    	subscribeBtn.setEnabled(true);
 		    	unsubscribeBtn.setEnabled(true);
 		    	sendBtn.setEnabled(true);
+                controlBtn.setEnabled(true);
 			}
 		});
     }
-    
+
     private void updateButtonsForDisconnected() {
     	runOnUiThread(new Runnable() {
 			public void run() {
@@ -363,10 +374,11 @@ public class JMSDemoActivity extends FragmentActivity {
 		    	subscribeBtn.setEnabled(false);
 		    	sendBtn.setEnabled(false);
 		    	unsubscribeBtn.setEnabled(false);
+                controlBtn.setEnabled(false);
 			}
 		});
     }
-    
+
     private ChallengeHandler createChallengehandler() {
     	final LoginHandler loginHandler = new LoginHandler() {
             private String username;
@@ -375,7 +387,7 @@ public class JMSDemoActivity extends FragmentActivity {
             public PasswordAuthentication getCredentials() {
             	try {
             		final Semaphore semaphore = new Semaphore(1);
-            		
+
             		// Acquire semaphore so that subsequent acquire will block until released.
             		// This is used to wait until the login dialog is dismissed
                 	semaphore.acquire();
@@ -385,21 +397,21 @@ public class JMSDemoActivity extends FragmentActivity {
 							semaphore.release();
 						}
 					});
-                	runOnUiThread(new Runnable() {				
+                	runOnUiThread(new Runnable() {
 						public void run() {
 							loginDialog.show(getSupportFragmentManager(), "Login Dialog Fragment");
 							loginDialog.getFragmentManager().executePendingTransactions();
 							loginDialog.getDialog().setCanceledOnTouchOutside(false);
 						}
 					});
-                	
+
                 	// wait until the dialog is dismissed
                 	semaphore.acquire();
-                	
+
                 	if (loginDialog.isCancelled()) {
                 		return null;
                 	}
-                	
+
                 	username = loginDialog.getUsername();
                 	password = loginDialog.getPassword().toCharArray();
                 } catch (Exception e) {
@@ -412,7 +424,7 @@ public class JMSDemoActivity extends FragmentActivity {
         challengeHandler.setLoginHandler(loginHandler);
         return challengeHandler;
     }
-    
+
     private class ConnectionExceptionListener implements ExceptionListener {
 
 		public void onException(final JMSException exception) {
@@ -422,9 +434,9 @@ public class JMSDemoActivity extends FragmentActivity {
 			}
 		}
     }
-    
+
     private class DestinationMessageListener implements MessageListener {
-    	
+
 		public void onMessage(Message message) {
 			try {
 				if (message instanceof TextMessage) {
@@ -476,7 +488,7 @@ public class JMSDemoActivity extends FragmentActivity {
 				logMessage("EXCEPTION: " + ex.getMessage());
 			}
 		}
-		
+
 		private String hexDump(byte[] b) {
 	        if (b.length == 0) {
 	            return "empty";
@@ -488,7 +500,7 @@ public class JMSDemoActivity extends FragmentActivity {
 	        }
 	        return out.toString();
 	    }
-    	
+
     }
 
 }

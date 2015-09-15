@@ -20,14 +20,15 @@ public final class R {
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f060002;
-        public static final int button_bottom=0x7f060016;
-        public static final int button_left=0x7f060017;
-        public static final int button_player1=0x7f060019;
-        public static final int button_player2=0x7f06001a;
-        public static final int button_right=0x7f060018;
-        public static final int button_top=0x7f060015;
+        public static final int button_bottom=0x7f060017;
+        public static final int button_left=0x7f060018;
+        public static final int button_player1=0x7f06001a;
+        public static final int button_player2=0x7f06001b;
+        public static final int button_right=0x7f060019;
+        public static final int button_top=0x7f060016;
         public static final int clearBtn=0x7f060014;
         public static final int connectBtn=0x7f060007;
+        public static final int controlBtn=0x7f060015;
         public static final int destinationText=0x7f06000a;
         public static final int disconnectBtn=0x7f060006;
         public static final int linearLayout1=0x7f060003;
@@ -76,10 +77,11 @@ public final class R {
         public static final int right=0x7f050014;
         public static final int sendBinary_label=0x7f050015;
         public static final int send_label=0x7f050016;
-        public static final int subscribe_label=0x7f050017;
-        public static final int title_activity_player=0x7f050018;
-        public static final int top=0x7f050019;
-        public static final int unsubscribe_label=0x7f05001a;
-        public static final int username_hint=0x7f05001b;
+        public static final int startPlay=0x7f050017;
+        public static final int subscribe_label=0x7f050018;
+        public static final int title_activity_player=0x7f050019;
+        public static final int top=0x7f05001a;
+        public static final int unsubscribe_label=0x7f05001b;
+        public static final int username_hint=0x7f05001c;
     }
 }
